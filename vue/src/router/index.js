@@ -6,12 +6,12 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/envdata/',
+    path: '/',
     name: 'home',
     component: Home
   },
   {
-    path: '/envdata/about',
+    path: '/about',
     name: 'about',
     component: () => import('@/views/About.vue')
   }
