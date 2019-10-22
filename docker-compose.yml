@@ -1,0 +1,41 @@
+version: "3"
+services:
+  envdataapi:
+    image: python:3.7
+    volumes:
+      - ./python:/scripts:ro
+      - ./data:/data:ro
+      - ./log/uwsgi:/log/uwsgi
+    ports:
+      - 5000:5000
+    environment:
+      TZ: Asia/Tokyo
+    restart: always
+    command: >
+      /bin/bash -c "
+      cd /scripts &&
+      pip install -r requirements.txt &&
+      uwsgi --enable-threads --ini /scripts/uwsgi.ini"
+#  nginxserver:
+#    image: nginx:1.17
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+#      - ./log/nginx:/var/log/nginx
+#      - ./vue:/vue:ro
+#    links:
+#      - envdataapi
+#    ports:
+#      - 8080:80
+#    environment:
+#      TZ: Asia/Tokyo
+#    restart: always
+  htmlBuilder:
+    image: node:12
+    volumes:
+      - ./vue:/scripts
+    command: >
+      /bin/bash -c "
+      cd /scripts &&
+      yarn install --force &&
+      yarn run build"
