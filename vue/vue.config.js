@@ -1,4 +1,4 @@
 module.exports = {
-  baseUrl: '/envdata/',
+  publicPath: '/envdata/',
   lintOnSave: false
 }
