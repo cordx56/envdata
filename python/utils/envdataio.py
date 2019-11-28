@@ -49,6 +49,12 @@ class EnvdataBin:
         return self.bf.seek(offset * self.sizeofEnvdata, whence)
     def tell(self):
         return int(self.bf.tell() / self.sizeofEnvdata)
+    def truncate(self, size):
+        if size is not None:
+            size *= self.sizeofEnvdata
+        s = self.bf.truncate(size)
+        self.size = int(s / self.sizeofEnvdata)
+        return self.size
 
     def write(self, ts, temp, pres, humd):
         self.bf.write(EnvdataStructure(ts, temp, pres, humd))
